@@ -22,6 +22,8 @@ class OfficialForm
                     ->label('Jabatan'),
                 FileUpload::make('photo')
                     ->image()
+                    ->disk('public')
+                    ->directory('officials')
                     ->default(null)
                     ->label('Foto'),
                 RichEditor::make('bio')

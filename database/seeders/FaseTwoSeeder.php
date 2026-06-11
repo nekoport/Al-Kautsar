@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\DonationInfo;
 use App\Models\Post;
 use App\Models\Event;
 use App\Models\Gallery;
@@ -140,6 +141,20 @@ class FaseTwoSeeder extends Seeder
         $gallery = Gallery::firstOrCreate(
             ['album_name' => 'Kegiatan Ramadhan 1447 H'],
             ['description' => 'Dokumentasi kegiatan selama bulan Ramadhan di Masjid Al-Kautsar.']
+        );
+
+        DonationInfo::firstOrCreate(
+            ['type' => 'bank', 'bank_name' => 'Bank Syariah Indonesia (BSI)'],
+            [
+                'account_number' => '1234567890',
+                'account_name' => 'Masjid Al-Kautsar',
+                'notes' => 'Konfirmasi transfer ke nomor WhatsApp 0812-3456-7890',
+            ]
+        );
+
+        DonationInfo::firstOrCreate(
+            ['type' => 'qris'],
+            ['notes' => 'Scan QRIS di atas untuk donasi']
         );
 
         if ($gallery->items()->count() === 0) {

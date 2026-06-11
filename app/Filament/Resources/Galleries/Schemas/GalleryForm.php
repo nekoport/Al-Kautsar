@@ -22,6 +22,8 @@ class GalleryForm
                     ->label('Deskripsi'),
                 FileUpload::make('cover_image')
                     ->image()
+                    ->disk('public')
+                    ->directory('galleries')
                     ->label('Gambar Sampul'),
             ]);
     }

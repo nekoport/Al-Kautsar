@@ -42,6 +42,8 @@ class MosqueProfileForm
                     ->label('Misi'),
                 FileUpload::make('logo')
                     ->image()
+                    ->disk('public')
+                    ->directory('mosque')
                     ->default(null)
                     ->label('Logo'),
             ]);

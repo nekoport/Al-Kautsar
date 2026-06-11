@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
@@ -10,6 +11,12 @@ class RoleSeeder extends Seeder
 {
     public function run(): void
     {
+        if (Permission::count() === 0) {
+            $this->command?->info('Regenerating Shield permissions...');
+            Artisan::call('shield:generate', ['--panel' => 'admin', '--all' => true]);
+            $this->command?->info(Artisan::output());
+        }
+
         Role::firstOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
         $editor = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
         $bendahara = Role::firstOrCreate(['name' => 'bendahara', 'guard_name' => 'web']);

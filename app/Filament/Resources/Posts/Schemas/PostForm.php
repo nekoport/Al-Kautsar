@@ -31,6 +31,8 @@ class PostForm
                     ->label('Ringkasan'),
                 FileUpload::make('thumbnail')
                     ->image()
+                    ->disk('public')
+                    ->directory('posts')
                     ->default(null)
                     ->label('Thumbnail'),
                 Select::make('category_id')

@@ -17,17 +17,29 @@ class DonationInfosTable
         return $table
             ->recordTitleAttribute('id')
             ->columns([
+                TextColumn::make('type')
+                    ->badge()
+                    ->label('Jenis')
+                    ->formatStateUsing(fn ($state) => $state === 'bank' ? 'Transfer Bank' : 'QRIS')
+                    ->colors([
+                        'success' => 'bank',
+                        'info' => 'qris',
+                    ]),
                 TextColumn::make('bank_name')
                     ->searchable()
-                    ->label('Nama Bank'),
+                    ->label('Nama Bank')
+                    ->visible(fn ($record) => $record && $record->type === 'bank'),
                 TextColumn::make('account_number')
                     ->searchable()
-                    ->label('Nomor Rekening'),
+                    ->label('Nomor Rekening')
+                    ->visible(fn ($record) => $record && $record->type === 'bank'),
                 TextColumn::make('account_name')
                     ->searchable()
-                    ->label('Atas Nama'),
+                    ->label('Atas Nama')
+                    ->visible(fn ($record) => $record && $record->type === 'bank'),
                 ImageColumn::make('qris_image')
-                    ->label('QRIS'),
+                    ->label('QRIS')
+                    ->visible(fn ($record) => $record && $record->type === 'qris'),
             ])
             ->filters([
                 //

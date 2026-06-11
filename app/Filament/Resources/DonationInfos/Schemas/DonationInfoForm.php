@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\DonationInfos\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -13,18 +14,33 @@ class DonationInfoForm
     {
         return $schema
             ->components([
+                Select::make('type')
+                    ->required()
+                    ->label('Jenis Donasi')
+                    ->options([
+                        'bank' => 'Transfer Bank',
+                        'qris' => 'QRIS',
+                    ])
+                    ->default('bank')
+                    ->live(),
                 TextInput::make('bank_name')
                     ->required()
-                    ->label('Nama Bank'),
+                    ->label('Nama Bank')
+                    ->visible(fn ($get) => $get('type') === 'bank'),
                 TextInput::make('account_number')
                     ->required()
-                    ->label('Nomor Rekening'),
+                    ->label('Nomor Rekening')
+                    ->visible(fn ($get) => $get('type') === 'bank'),
                 TextInput::make('account_name')
                     ->required()
-                    ->label('Atas Nama'),
+                    ->label('Atas Nama')
+                    ->visible(fn ($get) => $get('type') === 'bank'),
                 FileUpload::make('qris_image')
                     ->image()
-                    ->label('Gambar QRIS'),
+                    ->disk('public')
+                    ->directory('qris')
+                    ->label('Gambar QRIS')
+                    ->visible(fn ($get) => $get('type') === 'qris'),
                 Textarea::make('notes')
                     ->default(null)
                     ->columnSpanFull()

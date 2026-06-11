@@ -40,9 +40,12 @@ class PublicController extends Controller
             ->latest()
             ->first();
 
+        $prayerTimes = Cache::get('prayer_times_today');
+
         return view('home', compact(
             'mosque', 'latestPosts',
-            'upcomingEvents', 'announcement'
+            'upcomingEvents', 'announcement',
+            'prayerTimes'
         ));
     }
 
@@ -87,9 +90,10 @@ class PublicController extends Controller
 
     public function donasi()
     {
-        $donation = DonationInfo::first();
+        $bankDonations = DonationInfo::bank()->get();
+        $qrisDonations = DonationInfo::qris()->get();
 
-        return view('donasi', compact('donation'));
+        return view('donasi', compact('bankDonations', 'qrisDonations'));
     }
 
     public function kontak()

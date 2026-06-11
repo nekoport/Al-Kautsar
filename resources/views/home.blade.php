@@ -128,31 +128,12 @@
                 <h2 class="text-3xl font-bold text-gray-900 mb-3">Jadwal Shalat Hari Ini</h2>
                 <p class="text-gray-600">Wilayah Green Jagakarsa, Jakarta Selatan</p>
             </div>
-            @php
-                $prayerTimes = \Illuminate\Support\Facades\Cache::remember('prayer_times_today', 86400, function () {
-                    try {
-                        $response = \Illuminate\Support\Facades\Http::timeout(10)
-                            ->withOptions(['allow_redirects' => false])
-                            ->get('https://api.aladhan.com/v1/timings', [
-                                'latitude' => -6.3319,
-                                'longitude' => 106.8178,
-                                'method' => 11,
-                            ]);
-                        if ($response->failed()) {
-                            return [];
-                        }
-                        return $response->json()['data']['timings'] ?? [];
-                    } catch (\Exception $e) {
-                        return [];
-                    }
-                });
-            @endphp
-            @if(!empty($prayerTimes))
+            @if(isset($prayerTimes) && !empty($prayerTimes['timings']))
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
                 @foreach(['Fajr' => 'Subuh', 'Dhuhr' => 'Dzuhur', 'Asr' => 'Ashar', 'Maghrib' => 'Maghrib', 'Isha' => 'Isya'] as $key => $label)
                 <div class="bg-white rounded-xl p-5 text-center shadow-sm border border-gray-100">
                     <p class="text-sm text-gray-500 mb-1">{{ $label }}</p>
-                    <p class="text-xl font-semibold text-primary">{{ $prayerTimes[$key] ?? '-' }}</p>
+                    <p class="text-xl font-semibold text-primary">{{ $prayerTimes['timings'][$key] ?? '-' }}</p>
                 </div>
                 @endforeach
             </div>

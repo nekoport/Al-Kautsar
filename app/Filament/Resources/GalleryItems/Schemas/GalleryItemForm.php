@@ -19,6 +19,8 @@ class GalleryItemForm
                     ->label('Galeri'),
                 FileUpload::make('image_path')
                     ->image()
+                    ->disk('public')
+                    ->directory('gallery-items')
                     ->required()
                     ->label('Gambar'),
                 TextInput::make('caption')
