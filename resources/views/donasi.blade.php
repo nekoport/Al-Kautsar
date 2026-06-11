@@ -10,11 +10,9 @@
         </div>
     </div>
 
-    @php $donations = App\Models\DonationInfo::all(); @endphp
-
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        @forelse($donations as $donation)
-        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8">
+        @if($donation)
+        <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
             <h2 class="text-xl font-bold text-gray-900 mb-6">Rekening Donasi</h2>
             <div class="grid md:grid-cols-2 gap-8">
                 <div class="space-y-4">
@@ -48,10 +46,10 @@
                 </div>
             </div>
         </div>
-        @empty
+        @else
         <div class="text-center py-16">
             <p class="text-gray-500 text-lg">Belum ada informasi donasi.</p>
         </div>
-        @endforelse
+        @endif
     </div>
 @endsection

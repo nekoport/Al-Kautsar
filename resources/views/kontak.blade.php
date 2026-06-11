@@ -10,12 +10,10 @@
         </div>
     </div>
 
-    @php $profile = App\Models\MosqueProfile::first(); @endphp
-
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="grid md:grid-cols-2 gap-12">
             <div class="space-y-8">
-                @if($profile)
+                @if($mosque)
                 <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                     <h2 class="text-xl font-bold text-gray-900 mb-6">Informasi Kontak</h2>
                     <div class="space-y-4">
@@ -25,7 +23,7 @@
                             </div>
                             <div>
                                 <p class="font-medium text-gray-900">Alamat</p>
-                                <p class="text-gray-600">{{ $profile->address }}</p>
+                                <p class="text-gray-600">{{ $mosque->address }}</p>
                             </div>
                         </div>
                         <div class="flex items-start space-x-4">
@@ -34,7 +32,7 @@
                             </div>
                             <div>
                                 <p class="font-medium text-gray-900">Telepon</p>
-                                <p class="text-gray-600">{{ $profile->phone }}</p>
+                                <p class="text-gray-600">{{ $mosque->phone }}</p>
                             </div>
                         </div>
                         <div class="flex items-start space-x-4">
@@ -43,7 +41,7 @@
                             </div>
                             <div>
                                 <p class="font-medium text-gray-900">Email</p>
-                                <p class="text-gray-600">{{ $profile->email }}</p>
+                                <p class="text-gray-600">{{ $mosque->email }}</p>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,31 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
+
+class Category extends Model
+{
+    protected $fillable = [
+        'name', 'slug',
+    ];
+
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
+
+    protected static function booted(): void
+    {
+        static::creating(function (Category $category) {
+            if (empty($category->slug)) {
+                $category->slug = Str::slug($category->name);
+            }
+        });
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+}

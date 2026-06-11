@@ -52,6 +52,96 @@
         </div>
     </div>
 
+    @php
+        $announcement = App\Models\Announcement::where('is_active', true)
+                        ->where(function ($q) {
+                            $q->whereNull('expires_at')->orWhere('expires_at', '>=', now());
+                        })
+                        ->first();
+    @endphp
+    @if($announcement)
+    <div class="bg-primary">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center">
+            <p class="text-white font-medium">{{ $announcement->title }}</p>
+            <p class="text-white/80 text-sm mt-1">{{ $announcement->content }}</p>
+        </div>
+    </div>
+    @endif
+
+    @php
+        $latestPosts = App\Models\Post::where('published_at', '<=', now())
+                        ->orderBy('published_at', 'desc')
+                        ->take(3)
+                        ->get();
+    @endphp
+    @if($latestPosts->isNotEmpty())
+    <div class="bg-white py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Berita Terbaru</h2>
+                    <p class="text-gray-600">Artikel dan informasi terkini dari masjid</p>
+                </div>
+                <a href="{{ route('berita') }}" class="text-primary font-medium hover:underline">Lihat Semua</a>
+            </div>
+            <div class="grid md:grid-cols-3 gap-8">
+                @foreach($latestPosts as $post)
+                <a href="{{ route('berita.detail', $post->slug) }}" class="group bg-gray-50 rounded-2xl overflow-hidden hover:shadow-md transition">
+                    <div class="h-44 bg-primary-light flex items-center justify-center">
+                        @if($post->thumbnail)
+                        <img src="{{ asset('storage/' . $post->thumbnail) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        @else
+                        <svg class="w-10 h-10 text-primary/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                        @endif
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs text-gray-500 mb-2">{{ $post->published_at->format('d M Y') }}</p>
+                        <h3 class="font-semibold text-gray-900 group-hover:text-primary transition">{{ $post->title }}</h3>
+                        <p class="text-sm text-gray-600 mt-2">{{ $post->excerpt }}</p>
+                    </div>
+                </a>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
+
+    @php
+        $upcomingEvents = App\Models\Event::where('is_active', true)
+                          ->where('start_date', '>=', now())
+                          ->orderBy('start_date')
+                          ->take(3)
+                          ->get();
+    @endphp
+    @if($upcomingEvents->isNotEmpty())
+    <div class="bg-primary-light py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-10">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Kegiatan Mendatang</h2>
+                    <p class="text-gray-600">Agenda dan acara di Masjid Al-Kautsar</p>
+                </div>
+                <a href="{{ route('kegiatan') }}" class="text-primary font-medium hover:underline">Lihat Semua</a>
+            </div>
+            <div class="grid md:grid-cols-3 gap-6">
+                @foreach($upcomingEvents as $event)
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                    <div class="text-center mb-4">
+                        <div class="text-3xl font-bold text-primary">{{ $event->start_date->format('d') }}</div>
+                        <div class="text-sm text-gray-500">{{ $event->start_date->format('M Y') }}</div>
+                    </div>
+                    <h3 class="font-semibold text-gray-900 text-center mb-2">{{ $event->title }}</h3>
+                    <p class="text-sm text-gray-600 text-center">{{ $event->start_date->format('H:i') }} WIB</p>
+                    @if($event->location)
+                    <p class="text-xs text-gray-500 text-center mt-2">{{ $event->location }}</p>
+                    @endif
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
+
     <div class="bg-primary-light py-16">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-10">

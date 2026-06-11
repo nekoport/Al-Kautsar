@@ -10,27 +10,6 @@
         </div>
     </div>
 
-    @php
-        $prayerTimes = \Illuminate\Support\Facades\Cache::remember('prayer_times_today', 86400, function () {
-            try {
-                $client = new \GuzzleHttp\Client(['timeout' => 10]);
-                $response = $client->get('https://api.aladhan.com/v1/timingsByCity', [
-                    'query' => [
-                        'city' => 'Jakarta',
-                        'country' => 'Indonesia',
-                        'method' => 11,
-                    ]
-                ]);
-                $data = json_decode($response->getBody(), true);
-                $timings = $data['data']['timings'] ?? [];
-                $date = $data['data']['date']['readable'] ?? date('d-m-Y');
-                return ['timings' => $timings, 'date' => $date];
-            } catch (\Exception $e) {
-                return null;
-            }
-        });
-    @endphp
-
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         @if($prayerTimes && !empty($prayerTimes['timings']))
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">

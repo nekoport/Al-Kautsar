@@ -10,27 +10,23 @@
         </div>
     </div>
 
-    @php
-        $profile = App\Models\MosqueProfile::first();
-    @endphp
-
-    @if($profile)
+    @if($mosque)
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Sejarah</h2>
             <div class="prose prose-gray max-w-none leading-relaxed">
-                {{ $profile->history ?? 'Belum ada data sejarah.' }}
+                {{ $mosque->history ?? 'Belum ada data sejarah.' }}
             </div>
         </div>
-        @if($profile->vision || $profile->mission)
+        @if($mosque->vision || $mosque->mission)
         <div class="grid md:grid-cols-2 gap-8 mt-8">
             <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                 <h2 class="text-xl font-bold text-gray-900 mb-4">Visi</h2>
-                <p class="text-gray-600 leading-relaxed">{{ $profile->vision }}</p>
+                <p class="text-gray-600 leading-relaxed">{{ $mosque->vision }}</p>
             </div>
             <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                 <h2 class="text-xl font-bold text-gray-900 mb-4">Misi</h2>
-                <p class="text-gray-600 leading-relaxed">{{ $profile->mission }}</p>
+                <p class="text-gray-600 leading-relaxed">{{ $mosque->mission }}</p>
             </div>
         </div>
         @endif
@@ -44,7 +40,6 @@
                 <p class="text-gray-600">Dewan pengurus yang melayani masyarakat</p>
             </div>
             <div class="grid md:grid-cols-3 gap-8">
-                @php $officials = App\Models\Official::where('is_active', true)->orderBy('order')->get(); @endphp
                 @forelse($officials as $official)
                 <div class="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
                     <div class="w-24 h-24 bg-primary-light rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
