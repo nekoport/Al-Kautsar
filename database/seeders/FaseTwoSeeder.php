@@ -9,6 +9,7 @@ use App\Models\Gallery;
 use App\Models\GalleryItem;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class FaseTwoSeeder extends Seeder
 {
@@ -21,7 +22,7 @@ class FaseTwoSeeder extends Seeder
         ];
 
         foreach ($categories as $cat) {
-            Category::create($cat);
+            Category::firstOrCreate(['slug' => $cat['slug']], $cat);
         }
 
         $user = User::first();
@@ -30,6 +31,10 @@ class FaseTwoSeeder extends Seeder
                 'name' => 'Admin Masjid',
                 'email' => 'admin@masjidalkautsar.id',
             ]);
+        }
+
+        if (!$user->hasRole('super_admin')) {
+            $user->assignRole('super_admin');
         }
 
         $posts = [
@@ -76,7 +81,7 @@ class FaseTwoSeeder extends Seeder
         ];
 
         foreach ($posts as $post) {
-            Post::create($post);
+            Post::firstOrCreate(['title' => $post['title']], $post);
         }
 
         $events = [
@@ -107,28 +112,30 @@ class FaseTwoSeeder extends Seeder
         ];
 
         foreach ($events as $event) {
-            Event::create($event);
+            Event::firstOrCreate(['title' => $event['title']], $event);
         }
 
-        $gallery = Gallery::create([
-            'album_name' => 'Kegiatan Ramadhan 1447 H',
-            'description' => 'Dokumentasi kegiatan selama bulan Ramadhan di Masjid Al-Kautsar.',
-        ]);
+        $gallery = Gallery::firstOrCreate(
+            ['album_name' => 'Kegiatan Ramadhan 1447 H'],
+            ['description' => 'Dokumentasi kegiatan selama bulan Ramadhan di Masjid Al-Kautsar.']
+        );
 
-        $items = [
-            ['caption' => 'Taraweh malam pertama', 'order' => 1],
-            ['caption' => 'Kajian menjelang berbuka', 'order' => 2],
-            ['caption' => 'Buka puasa bersama', 'order' => 3],
-            ['caption' => 'Santunan anak yatim', 'order' => 4],
-        ];
+        if ($gallery->items()->count() === 0) {
+            $items = [
+                ['caption' => 'Taraweh malam pertama', 'order' => 1],
+                ['caption' => 'Kajian menjelang berbuka', 'order' => 2],
+                ['caption' => 'Buka puasa bersama', 'order' => 3],
+                ['caption' => 'Santunan anak yatim', 'order' => 4],
+            ];
 
-        foreach ($items as $item) {
-            GalleryItem::create([
-                'gallery_id' => $gallery->id,
-                'image_path' => 'gallery/placeholder-' . $item['order'] . '.jpg',
-                'caption' => $item['caption'],
-                'order' => $item['order'],
-            ]);
+            foreach ($items as $item) {
+                GalleryItem::create([
+                    'gallery_id' => $gallery->id,
+                    'image_path' => 'gallery/placeholder-' . $item['order'] . '.jpg',
+                    'caption' => $item['caption'],
+                    'order' => $item['order'],
+                ]);
+            }
         }
     }
 }
