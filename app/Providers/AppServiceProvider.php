@@ -17,6 +17,8 @@ use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Filament\Support\Assets\Css;
+use Filament\Support\Facades\FilamentAsset;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
 
@@ -29,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        FilamentAsset::register([
+            Css::make('admin-custom', public_path('css/admin.css')),
+        ], 'admin');
+
         if (app()->environment('production')) {
             URL::forceScheme('https');
         }

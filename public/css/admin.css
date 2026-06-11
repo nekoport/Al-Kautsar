@@ -1,0 +1,38 @@
+.fi-simple-page {
+    background: linear-gradient(135deg, #0F6E56 0%, #0a5743 50%, #06402f 100%) !important;
+}
+
+.fi-simple-layout {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.fi-simple-layout .fi-logo {
+    padding: 2rem 2rem 0.5rem 2rem !important;
+}
+
+.fi-simple-layout .fi-logo .fi-brand-name {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #0F6E56 !important;
+    letter-spacing: -0.02em !important;
+}
+
+.fi-simple-layout .fi-btn,
+.fi-simple-layout button[type="submit"] {
+    background: #0F6E56 !important;
+    border-radius: 0.5rem !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+.fi-simple-layout .fi-btn:hover,
+.fi-simple-layout button[type="submit"]:hover {
+    background: #0a5743 !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 110, 86, 0.3) !important;
+}
+
+.fi-simple-layout input:focus {
+    border-color: #0F6E56 !important;
+    box-shadow: 0 0 0 2px rgba(15, 110, 86, 0.2) !important;
+}
