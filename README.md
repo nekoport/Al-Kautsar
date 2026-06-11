@@ -56,7 +56,7 @@ php artisan sitemap:generate
 ## Admin Panel
 
 - URL: `https://your-domain.com/admin`
-- Credentials: `admin@masjidalkautsar.id` / `password`
+- Credentials: diset via `ADMIN_PASSWORD` di `.env` saat pertama deploy (lihat `.env.example`)
 
 ### Roles
 
