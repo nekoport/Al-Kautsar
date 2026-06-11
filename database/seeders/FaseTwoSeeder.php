@@ -37,6 +37,28 @@ class FaseTwoSeeder extends Seeder
             $user->assignRole('super_admin');
         }
 
+        $editorUser = User::where('email', 'editor@masjidalkautsar.id')->first();
+        if (!$editorUser) {
+            $editorUser = User::factory()->create([
+                'name' => 'Editor Masjid',
+                'email' => 'editor@masjidalkautsar.id',
+            ]);
+        }
+        if (!$editorUser->hasRole('editor')) {
+            $editorUser->assignRole('editor');
+        }
+
+        $bendaharaUser = User::where('email', 'bendahara@masjidalkautsar.id')->first();
+        if (!$bendaharaUser) {
+            $bendaharaUser = User::factory()->create([
+                'name' => 'Bendahara Masjid',
+                'email' => 'bendahara@masjidalkautsar.id',
+            ]);
+        }
+        if (!$bendaharaUser->hasRole('bendahara')) {
+            $bendaharaUser->assignRole('bendahara');
+        }
+
         $posts = [
             [
                 'title' => 'Kajian Rutin Ahad Pagi: Tafsir Al-Quran',

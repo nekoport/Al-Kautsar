@@ -55,7 +55,7 @@
         @yield('content')
     </main>
 
-    <footer class="bg-gray-900 text-gray-300">
+    <footer class="bg-gray-900" style="background: #0F6E56; color: #ffffff;">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
             <div class="grid md:grid-cols-3 gap-8">
                 <div>
@@ -65,21 +65,21 @@
                         </div>
                         <span class="font-semibold text-lg text-white">Al-Kautsar</span>
                     </div>
-                    <p class="text-sm text-gray-400">Masjid Al-Kautsar Green Jagakarsa — tempat ibadah yang damai, terbuka untuk semua.</p>
+                    <p class="text-sm text-white">Masjid Al-Kautsar Green Jagakarsa — tempat ibadah yang damai, terbuka untuk semua.</p>
                 </div>
                 <div>
                     <h3 class="font-semibold text-white mb-3">Navigasi</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="{{ route('home') }}" class="hover:text-white transition">Beranda</a></li>
-                        <li><a href="{{ route('profil') }}" class="hover:text-white transition">Profil</a></li>
-                        <li><a href="{{ route('jadwal-shalat') }}" class="hover:text-white transition">Jadwal Shalat</a></li>
-                        <li><a href="{{ route('donasi') }}" class="hover:text-white transition">Donasi</a></li>
-                        <li><a href="{{ route('kontak') }}" class="hover:text-white transition">Kontak</a></li>
+                        <li><a href="{{ route('home') }}" class="text-white hover:text-white transition">Beranda</a></li>
+                        <li><a href="{{ route('profil') }}" class="text-white hover:text-white transition">Profil</a></li>
+                        <li><a href="{{ route('jadwal-shalat') }}" class="text-white hover:text-white transition">Jadwal Shalat</a></li>
+                        <li><a href="{{ route('donasi') }}" class="text-white hover:text-white transition">Donasi</a></li>
+                        <li><a href="{{ route('kontak') }}" class="text-white hover:text-white transition">Kontak</a></li>
                     </ul>
                 </div>
                 <div>
                     <h3 class="font-semibold text-white mb-3">Kontak</h3>
-                    <ul class="space-y-2 text-sm">
+                    <ul class="space-y-2 text-sm text-white">
                         <li>Green Jagakarsa, Jakarta Selatan</li>
                         @php($footerMosque = \App\Models\MosqueProfile::first())
                         @if($footerMosque)
@@ -89,7 +89,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-500">
+            <div class="border-t border-white/20 mt-8 pt-8 text-center text-sm text-white">
                 &copy; {{ date('Y') }} Masjid Al-Kautsar Green Jagakarsa. All rights reserved.
             </div>
         </div>

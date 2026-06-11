@@ -7,7 +7,11 @@ use Filament\Widgets\ChartWidget;
 
 class PostsPublishedChart extends ChartWidget
 {
-    protected ?string $heading = 'Publikasi Berita';
+    protected static ?int $sort = 2;
+
+    protected int | string | array $columnSpan = 2;
+
+    protected ?string $heading = 'Publikasi Berita (12 Bulan)';
 
     protected function getData(): array
     {
@@ -28,6 +32,10 @@ class PostsPublishedChart extends ChartWidget
                 [
                     'label' => 'Publikasi Berita',
                     'data' => $data,
+                    'backgroundColor' => '#0F6E56',
+                    'borderColor' => '#0F6E56',
+                    'tension' => 0.3,
+                    'fill' => false,
                 ],
             ],
             'labels' => $labels,
