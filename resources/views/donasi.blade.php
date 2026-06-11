@@ -37,7 +37,7 @@
                 </div>
                 <div class="flex items-center justify-center">
                     @if($donation->qris_image)
-                    <img src="{{ asset('storage/' . $donation->qris_image) }}" alt="QRIS" class="max-w-[200px] rounded-xl shadow-sm">
+                    <img src="{{ asset('storage/' . $donation->qris_image) }}" alt="QRIS" class="max-w-[200px] rounded-xl shadow-sm" loading="lazy">
                     @else
                     <div class="w-48 h-48 bg-gray-100 rounded-xl flex items-center justify-center">
                         <p class="text-gray-400 text-sm">QRIS tidak tersedia</p>

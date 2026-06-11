@@ -10,4 +10,8 @@ class MosqueProfile extends Model
         'name', 'address', 'phone', 'email',
         'history', 'vision', 'mission', 'logo',
     ];
+
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
 }

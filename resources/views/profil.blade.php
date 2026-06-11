@@ -44,7 +44,7 @@
                 <div class="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100">
                     <div class="w-24 h-24 bg-primary-light rounded-full mx-auto mb-4 flex items-center justify-center overflow-hidden">
                         @if($official->photo)
-                        <img src="{{ asset('storage/' . $official->photo) }}" alt="{{ $official->name }}" class="w-full h-full object-cover">
+                        <img src="{{ asset('storage/' . $official->photo) }}" alt="{{ $official->name }}" class="w-full h-full object-cover" loading="lazy">
                         @else
                         <span class="text-3xl font-bold text-primary">{{ substr($official->name, 0, 1) }}</span>
                         @endif

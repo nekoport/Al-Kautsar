@@ -60,11 +60,13 @@ class PublicController extends Controller
     {
         $prayerTimes = Cache::remember('prayer_times_today', 86400, function () {
             try {
-                $response = Http::timeout(10)->get('https://api.aladhan.com/v1/timings', [
-                    'latitude' => -6.3319,
-                    'longitude' => 106.8178,
-                    'method' => 11,
-                ]);
+                $response = Http::timeout(10)
+                    ->withOptions(['allow_redirects' => false])
+                    ->get('https://api.aladhan.com/v1/timings', [
+                        'latitude' => -6.3319,
+                        'longitude' => 106.8178,
+                        'method' => 11,
+                    ]);
 
                 if ($response->failed()) {
                     return null;

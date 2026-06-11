@@ -10,4 +10,8 @@ class DonationInfo extends Model
         'bank_name', 'account_number', 'account_name',
         'qris_image', 'notes',
     ];
+
+    protected $hidden = [
+        'created_at', 'updated_at',
+    ];
 }

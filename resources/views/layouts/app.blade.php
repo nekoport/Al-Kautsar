@@ -4,6 +4,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="description" content="@yield('meta_description', 'Masjid Al-Kautsar Green Jagakarsa — tempat ibadah yang damai, terbuka untuk seluruh masyarakat. Informasi jadwal shalat, donasi, kegiatan, dan berita terbaru.')">
+    <meta property="og:title" content="@yield('title', 'Masjid Al-Kautsar') - Masjid Al-Kautsar Green Jagakarsa">
+    <meta property="og:description" content="@yield('meta_description', 'Masjid Al-Kautsar Green Jagakarsa — tempat ibadah yang damai, terbuka untuk seluruh masyarakat.')">
+    <meta property="og:image" content="@yield('og_image', asset('images/og-default.jpg'))">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="{{ url()->current() }}">
     <title>@yield('title', 'Masjid Al-Kautsar') - Masjid Al-Kautsar Green Jagakarsa</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -73,9 +81,10 @@
                     <h3 class="font-semibold text-white mb-3">Kontak</h3>
                     <ul class="space-y-2 text-sm">
                         <li>Green Jagakarsa, Jakarta Selatan</li>
-                        @if(App\Models\MosqueProfile::first())
-                        <li>{{ App\Models\MosqueProfile::first()->phone }}</li>
-                        <li>{{ App\Models\MosqueProfile::first()->email }}</li>
+                        @php($footerMosque = \App\Models\MosqueProfile::first())
+                        @if($footerMosque)
+                        <li>{{ $footerMosque->phone }}</li>
+                        <li>{{ $footerMosque->email }}</li>
                         @endif
                     </ul>
                 </div>

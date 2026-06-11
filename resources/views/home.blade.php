@@ -52,14 +52,7 @@
         </div>
     </div>
 
-    @php
-        $announcement = App\Models\Announcement::where('is_active', true)
-                        ->where(function ($q) {
-                            $q->whereNull('expires_at')->orWhere('expires_at', '>=', now());
-                        })
-                        ->first();
-    @endphp
-    @if($announcement)
+    @if(isset($announcement) && $announcement)
     <div class="bg-primary">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 text-center">
             <p class="text-white font-medium">{{ $announcement->title }}</p>
@@ -68,13 +61,7 @@
     </div>
     @endif
 
-    @php
-        $latestPosts = App\Models\Post::where('published_at', '<=', now())
-                        ->orderBy('published_at', 'desc')
-                        ->take(3)
-                        ->get();
-    @endphp
-    @if($latestPosts->isNotEmpty())
+    @if(isset($latestPosts) && $latestPosts->isNotEmpty())
     <div class="bg-white py-16">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between mb-10">
@@ -89,7 +76,7 @@
                 <a href="{{ route('berita.detail', $post->slug) }}" class="group bg-gray-50 rounded-2xl overflow-hidden hover:shadow-md transition">
                     <div class="h-44 bg-primary-light flex items-center justify-center">
                         @if($post->thumbnail)
-                        <img src="{{ asset('storage/' . $post->thumbnail) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <img src="{{ asset('storage/' . $post->thumbnail) }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy">
                         @else
                         <svg class="w-10 h-10 text-primary/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                         @endif
@@ -106,14 +93,7 @@
     </div>
     @endif
 
-    @php
-        $upcomingEvents = App\Models\Event::where('is_active', true)
-                          ->where('start_date', '>=', now())
-                          ->orderBy('start_date')
-                          ->take(3)
-                          ->get();
-    @endphp
-    @if($upcomingEvents->isNotEmpty())
+    @if(isset($upcomingEvents) && $upcomingEvents->isNotEmpty())
     <div class="bg-primary-light py-16">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between mb-10">
@@ -151,16 +131,17 @@
             @php
                 $prayerTimes = \Illuminate\Support\Facades\Cache::remember('prayer_times_today', 86400, function () {
                     try {
-                        $client = new \GuzzleHttp\Client(['timeout' => 10]);
-                        $response = $client->get('https://api.aladhan.com/v1/timingsByCity', [
-                            'query' => [
-                                'city' => 'Jakarta',
-                                'country' => 'Indonesia',
+                        $response = \Illuminate\Support\Facades\Http::timeout(10)
+                            ->withOptions(['allow_redirects' => false])
+                            ->get('https://api.aladhan.com/v1/timings', [
+                                'latitude' => -6.3319,
+                                'longitude' => 106.8178,
                                 'method' => 11,
-                            ]
-                        ]);
-                        $data = json_decode($response->getBody(), true);
-                        return $data['data']['timings'] ?? [];
+                            ]);
+                        if ($response->failed()) {
+                            return [];
+                        }
+                        return $response->json()['data']['timings'] ?? [];
                     } catch (\Exception $e) {
                         return [];
                     }

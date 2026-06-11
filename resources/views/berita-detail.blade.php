@@ -1,6 +1,8 @@
 @extends('layouts.app')
 
 @section('title', $post->title)
+@section('meta_description', Str::limit($post->excerpt ?: strip_tags($post->content), 160))
+@section('og_image', $post->thumbnail ? asset('storage/' . $post->thumbnail) : asset('images/og-default.jpg'))
 
 @section('content')
     <div class="bg-primary-light py-12">
@@ -26,7 +28,7 @@
 
             @if($post->thumbnail)
             <div class="mb-8 rounded-xl overflow-hidden">
-                <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}" class="w-full">
+                <img src="{{ asset('storage/' . $post->thumbnail) }}" alt="{{ $post->title }}" class="w-full" loading="lazy">
             </div>
             @endif
 
@@ -43,7 +45,7 @@
                 <a href="{{ route('berita.detail', $relatedPost->slug) }}" class="group bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition">
                     <div class="h-36 bg-primary-light flex items-center justify-center">
                         @if($relatedPost->thumbnail)
-                        <img src="{{ asset('storage/' . $relatedPost->thumbnail) }}" class="w-full h-full object-cover">
+                        <img src="{{ asset('storage/' . $relatedPost->thumbnail) }}" class="w-full h-full object-cover" loading="lazy">
                         @else
                         <svg class="w-8 h-8 text-primary/40" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
                         @endif
