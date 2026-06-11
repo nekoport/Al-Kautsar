@@ -1,0 +1,166 @@
+
+<style>
+  .section { margin-bottom: 1.5rem; }
+  .section-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); margin-bottom: 8px; cursor: pointer; border: 0.5px solid var(--color-border-tertiary); }
+  .section-header h3 { margin: 0; font-size: 14px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: var(--border-radius-md); font-weight: 500; }
+  .badge-critical { background: #FCEBEB; color: #A32D2D; }
+  .badge-important { background: #FAEEDA; color: #854F0B; }
+  .badge-optional { background: #E1F5EE; color: #0F6E56; }
+  .items { padding: 0 4px; }
+  .item { display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px; border-radius: var(--border-radius-md); margin-bottom: 4px; border: 0.5px solid transparent; }
+  .item:hover { background: var(--color-background-secondary); border-color: var(--color-border-tertiary); }
+  .item input[type=checkbox] { margin-top: 2px; flex-shrink: 0; cursor: pointer; width: 15px; height: 15px; }
+  .item label { font-size: 13px; color: var(--color-text-primary); line-height: 1.5; cursor: pointer; flex: 1; }
+  .item label .sub { font-size: 12px; color: var(--color-text-secondary); display: block; margin-top: 2px; }
+  .progress-bar-wrap { height: 6px; background: var(--color-background-secondary); border-radius: 99px; margin-bottom: 1.5rem; overflow: hidden; border: 0.5px solid var(--color-border-tertiary); }
+  .progress-bar-fill { height: 100%; background: #1D9E75; border-radius: 99px; transition: width 0.3s ease; }
+  .progress-label { font-size: 12px; color: var(--color-text-secondary); text-align: right; margin-bottom: 4px; }
+  .done { text-decoration: line-through; color: var(--color-text-tertiary) !important; }
+  .action-btn { font-size: 13px; padding: 8px 16px; border-radius: var(--border-radius-md); cursor: pointer; background: transparent; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-primary); }
+  .action-btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<h2 class="sr-only">Checklist persiapan website masjid sebelum mulai development</h2>
+
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; padding-top:0.5rem;">
+  <span style="font-size:13px; font-weight:500; color:var(--color-text-primary);">Progress persiapan</span>
+  <span style="font-size:12px; color:var(--color-text-secondary);" id="prog-label">0 / 0 item</span>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="prog-fill" style="width:0%"></div></div>
+
+<div id="checklist-root"></div>
+
+<div style="margin-top:1rem; display:flex; gap:8px; flex-wrap:wrap;">
+  <button class="action-btn" onclick="sendPrompt('Oke saya sudah isi checklist, sekarang buatkan PRD lengkap untuk website Masjid Al-Kautsar Green Jagakarsa dengan Laravel ↗')">Lanjut buat PRD ↗</button>
+  <button class="action-btn" onclick="resetAll()">Reset semua</button>
+</div>
+
+<script>
+const data = [
+  {
+    title: "🏛️ Informasi Dasar Masjid",
+    priority: "critical",
+    items: [
+      { id: "c1", text: "Nama resmi masjid & singkatan", sub: "Masjid Al-Kautsar Green Jagakarsa — apakah ada nama lain yang dipakai?" },
+      { id: "c2", text: "Alamat lengkap, nomor telepon, email resmi", sub: "Akan tampil di footer dan halaman kontak" },
+      { id: "c3", text: "Nama pengurus/takmir yang akan jadi kontak website", sub: "Siapa yang approve konten dan punya akses admin?" },
+      { id: "c4", text: "Logo, foto masjid, warna identitas", sub: "Kalau belum ada, siapa yang buat aset desain?" },
+    ]
+  },
+  {
+    title: "🎯 Tujuan & Target Pengguna",
+    priority: "critical",
+    items: [
+      { id: "g1", text: "Website ini dibuat untuk siapa utamanya?", sub: "Jamaah lokal, donatur, umum, atau kombinasi?" },
+      { id: "g2", text: "Apa tujuan utama website ini?", sub: "Informasi, donasi online, manajemen internal, atau semua?" },
+      { id: "g3", text: "Apakah ada target launch date?", sub: "Ini akan mempengaruhi scope fitur yang realistis" },
+    ]
+  },
+  {
+    title: "⚙️ Fitur yang Diinginkan",
+    priority: "critical",
+    items: [
+      { id: "f1", text: "Profil & sejarah masjid", sub: "Halaman statis tentang masjid" },
+      { id: "f2", text: "Jadwal shalat otomatis (berdasarkan lokasi)", sub: "Integrasi API seperti Aladhan API" },
+      { id: "f3", text: "Jadwal kegiatan / pengajian", sub: "Apakah perlu RSVP atau hanya informasi?" },
+      { id: "f4", text: "Donasi / infaq / zakat online", sub: "Butuh integrasi payment gateway — QRIS, transfer, dll" },
+      { id: "f5", text: "Berita & artikel islami", sub: "Siapa yang akan nulis dan update konten?" },
+      { id: "f6", text: "Galeri foto / video kegiatan", sub: "" },
+      { id: "f7", text: "Live streaming Jumat / kajian", sub: "Embed YouTube/streaming pihak ketiga atau host sendiri?" },
+      { id: "f8", text: "Laporan keuangan / transparansi donasi", sub: "Apakah akan dipublik atau hanya untuk pengurus?" },
+      { id: "f9", text: "Manajemen sewa fasilitas", sub: "Aula, sound system — apakah perlu booking online?" },
+      { id: "f10", text: "Notifikasi (WhatsApp / email blast ke jamaah)", sub: "" },
+    ]
+  },
+  {
+    title: "👤 Admin & Pengelola Konten",
+    priority: "important",
+    items: [
+      { id: "a1", text: "Berapa orang yang akan punya akses admin?", sub: "Satu orang atau beberapa role (editor, bendahara, super admin)?" },
+      { id: "a2", text: "Seberapa tech-savvy pengurus yang akan kelola konten?", sub: "Ini menentukan seberapa 'user-friendly' panel admin harus dibuat" },
+      { id: "a3", text: "Apakah butuh role-based access? (RBAC)", sub: "Misalnya: bendahara hanya akses laporan, editor hanya akses artikel" },
+    ]
+  },
+  {
+    title: "💻 Teknologi & Infrastruktur",
+    priority: "important",
+    items: [
+      { id: "t1", text: "Siapa yang akan maintain code setelah selesai?", sub: "Developer internal, freelancer standby, atau diserahkan ke pengurus?" },
+      { id: "t2", text: "Hosting: pakai server apa?", sub: "VPS (DigitalOcean/Vultr), shared hosting, atau cloud (AWS/GCP)?" },
+      { id: "t3", text: "Domain sudah ada atau perlu beli?", sub: "Contoh: alkautsar.or.id atau alkautsarjagakarsa.com" },
+      { id: "t4", text: "Apakah perlu Laravel Filament untuk admin panel?", sub: "Filament menghemat banyak waktu development untuk CRUD" },
+      { id: "t5", text: "Frontend: pakai Blade + Tailwind, atau Vue/React (Inertia.js)?", sub: "Blade lebih simple, Inertia lebih modern tapi complex" },
+      { id: "t6", text: "Apakah butuh PWA / mobile app?", sub: "Atau cukup website responsive?" },
+    ]
+  },
+  {
+    title: "💰 Anggaran & Timeline",
+    priority: "important",
+    items: [
+      { id: "b1", text: "Berapa budget yang tersedia?", sub: "Termasuk hosting, domain, development, dan maintenance tahunan" },
+      { id: "b2", text: "Apakah ini dikerjakan sendiri, tim, atau ada bayaran ke developer?", sub: "" },
+      { id: "b3", text: "Siapa yang menanggung biaya hosting & domain per tahun?", sub: "Ini sering terlupakan dan website mati karena domain expired" },
+    ]
+  },
+  {
+    title: "🔒 Keamanan & Legal",
+    priority: "optional",
+    items: [
+      { id: "s1", text: "Apakah donasi online butuh entitas legal (rekening resmi masjid)?", sub: "Payment gateway butuh nama perusahaan/yayasan dan rekening resmi" },
+      { id: "s2", text: "Apakah ada data jamaah yang akan disimpan?", sub: "Kalau ya, perlu privacy policy dan keamanan data" },
+      { id: "s3", text: "Apakah butuh SSL (HTTPS)?", sub: "Wajib kalau ada form donasi atau login" },
+    ]
+  },
+];
+
+const badgeMap = { critical: ['critical','Wajib dijawab'], important: ['important','Penting'], optional: ['optional','Opsional'] };
+
+function render() {
+  const root = document.getElementById('checklist-root');
+  root.innerHTML = '';
+  data.forEach(sec => {
+    const [cls, label] = badgeMap[sec.priority];
+    const div = document.createElement('div');
+    div.className = 'section';
+    div.innerHTML = `
+      <div class="section-header">
+        <h3>${sec.title}</h3>
+        <span class="badge badge-${cls}">${label}</span>
+      </div>
+      <div class="items">${sec.items.map(item => `
+        <div class="item">
+          <input type="checkbox" id="${item.id}" ${localStorage.getItem(item.id)==='1'?'checked':''} onchange="toggle('${item.id}', this.checked)">
+          <label for="${item.id}" class="${localStorage.getItem(item.id)==='1'?'done':''}">
+            ${item.text}
+            ${item.sub ? `<span class="sub">${item.sub}</span>` : ''}
+          </label>
+        </div>`).join('')}
+      </div>`;
+    root.appendChild(div);
+  });
+  updateProgress();
+}
+
+function toggle(id, checked) {
+  localStorage.setItem(id, checked ? '1' : '0');
+  const lbl = document.querySelector(`label[for="${id}"]`);
+  if (lbl) lbl.className = checked ? 'done' : '';
+  updateProgress();
+}
+
+function updateProgress() {
+  const allIds = data.flatMap(s => s.items.map(i => i.id));
+  const done = allIds.filter(id => localStorage.getItem(id) === '1').length;
+  const pct = allIds.length ? Math.round(done / allIds.length * 100) : 0;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `${done} / ${allIds.length} item`;
+}
+
+function resetAll() {
+  data.flatMap(s => s.items.map(i => i.id)).forEach(id => localStorage.removeItem(id));
+  render();
+}
+
+render();
+</script>
