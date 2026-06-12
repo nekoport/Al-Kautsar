@@ -40,7 +40,26 @@ class PublicController extends Controller
             ->latest()
             ->first();
 
-        $prayerTimes = Cache::get('prayer_times_today');
+        $prayerTimes = Cache::remember('prayer_times_today', 86400, function () {
+            try {
+                $response = Http::timeout(10)
+                    ->get('https://api.aladhan.com/v1/timings', [
+                        'latitude' => -6.3319,
+                        'longitude' => 106.8178,
+                        'method' => 11,
+                    ]);
+                if ($response->successful()) {
+                    $data = $response->json()['data'];
+                    return [
+                        'timings' => $data['timings'] ?? [],
+                        'date' => $data['date']['readable'] ?? date('d-m-Y'),
+                    ];
+                }
+            } catch (\Throwable $e) {
+                // Silently fail
+            }
+            return null;
+        });
 
         return view('home', compact(
             'mosque', 'latestPosts',
@@ -79,7 +98,7 @@ class PublicController extends Controller
                 $date = $data['data']['date']['readable'] ?? date('d-m-Y');
 
                 return ['timings' => $timings, 'date' => $date];
-            } catch (\Exception $e) {
+            } catch (\Throwable $e) {
                 return null;
             }
         });
@@ -143,7 +162,7 @@ class PublicController extends Controller
 
     public function galeri()
     {
-        $galleries = Gallery::with('items')->latest()->paginate(10);
+        $galleries = Gallery::with('items')->latest()->paginate(5);
 
         return view('galeri', compact('galleries'));
     }
