@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MosqueProfiles;
 
+use App\Filament\Resources\MosqueProfiles\Pages\EditMosqueProfile;
 use App\Filament\Resources\MosqueProfiles\Pages\ManageMosqueProfiles;
 use App\Filament\Resources\MosqueProfiles\Schemas\MosqueProfileForm;
 use App\Filament\Resources\MosqueProfiles\Tables\MosqueProfilesTable;
@@ -38,7 +39,12 @@ class MosqueProfileResource extends Resource
         return MosqueProfilesTable::configure($table);
     }
 
-        public static function getNavigationGroup(): string | UnitEnum | null
+        public static function canCreate(): bool
+    {
+        return \App\Models\MosqueProfile::count() === 0;
+    }
+
+    public static function getNavigationGroup(): string | UnitEnum | null
     {
         return 'Manajemen';
     }
@@ -46,6 +52,7 @@ public static function getPages(): array
     {
         return [
             'index' => ManageMosqueProfiles::route('/'),
+            'edit' => EditMosqueProfile::route('/{record}/edit'),
         ];
     }
 }

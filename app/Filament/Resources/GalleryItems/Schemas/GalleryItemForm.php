@@ -22,7 +22,9 @@ class GalleryItemForm
                     ->disk('public')
                     ->directory('gallery-items')
                     ->required()
-                    ->label('Gambar'),
+                    ->label('Gambar')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
                 TextInput::make('caption')
                     ->default(null)
                     ->label('Keterangan'),

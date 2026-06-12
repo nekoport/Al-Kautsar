@@ -23,7 +23,7 @@ class PublicController extends Controller
 
         $latestPosts = Post::where('published_at', '<=', now())
             ->latest('published_at')
-            ->take(3)
+            ->take(6)
             ->get();
 
         $upcomingEvents = Event::where('is_active', true)
@@ -64,7 +64,6 @@ class PublicController extends Controller
         $prayerTimes = Cache::remember('prayer_times_today', 86400, function () {
             try {
                 $response = Http::timeout(10)
-                    ->withOptions(['allow_redirects' => false])
                     ->get('https://api.aladhan.com/v1/timings', [
                         'latitude' => -6.3319,
                         'longitude' => 106.8178,
@@ -122,7 +121,7 @@ class PublicController extends Controller
                       ->where('id', '!=', $post->id)
                       ->where('published_at', '<=', now())
                       ->latest('published_at')
-                      ->take(3)
+            ->take(6)
                       ->get();
 
         return view('berita-detail', compact('post', 'related'));
@@ -144,7 +143,7 @@ class PublicController extends Controller
 
     public function galeri()
     {
-        $galleries = Gallery::with('items')->latest()->get();
+        $galleries = Gallery::with('items')->latest()->paginate(10);
 
         return view('galeri', compact('galleries'));
     }

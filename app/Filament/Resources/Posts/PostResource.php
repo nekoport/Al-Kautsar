@@ -19,11 +19,11 @@ class PostResource extends Resource
 {
     protected static ?string $model = Post::class;
 
-    protected static ?string $navigationLabel = 'Postingan';
+    protected static ?string $navigationLabel = 'Berita';
 
-    protected static ?string $modelLabel = 'Postingan';
+    protected static ?string $modelLabel = 'Berita';
 
-    protected static ?string $pluralModelLabel = 'Postingan';
+    protected static ?string $pluralModelLabel = 'Berita';
 
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedNewspaper;

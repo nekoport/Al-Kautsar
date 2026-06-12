@@ -27,7 +27,10 @@ class MosqueProfilesTable
                     ->searchable()
                     ->label('Email'),
                 ImageColumn::make('logo')
-                    ->label('Logo'),
+                    ->disk('public')
+                    ->label('Logo')
+                    ->height(40)
+                    ->width(40),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

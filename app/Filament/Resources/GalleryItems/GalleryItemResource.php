@@ -26,6 +26,8 @@ class GalleryItemResource extends Resource
     protected static ?string $pluralModelLabel = 'Item Galeri';
 
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPhoto;
 
     protected static ?string $recordTitleAttribute = 'caption';

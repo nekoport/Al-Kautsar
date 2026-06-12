@@ -9,6 +9,8 @@ class MosqueProfile extends Model
     protected $fillable = [
         'name', 'address', 'phone', 'email',
         'history', 'vision', 'mission', 'logo',
+        'hero_image', 'favicon', 'footer_text',
+        'latitude', 'longitude',
     ];
 
     protected $hidden = [

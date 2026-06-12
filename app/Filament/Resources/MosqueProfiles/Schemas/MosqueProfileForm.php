@@ -41,11 +41,41 @@ class MosqueProfileForm
                     ->columnSpanFull()
                     ->label('Misi'),
                 FileUpload::make('logo')
+                    ->label('Logo')
                     ->image()
                     ->disk('public')
                     ->directory('mosque')
                     ->default(null)
-                    ->label('Logo'),
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
+                FileUpload::make('hero_image')
+                    ->image()
+                    ->label('Gambar Hero')
+                    ->disk('public')
+                    ->directory('mosque')
+                    ->default(null)
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
+                FileUpload::make('favicon')
+                    ->label('Favicon')
+                    ->disk('public')
+                    ->directory('mosque')
+                    ->default(null)
+                    ->acceptedFileTypes(['image/x-icon', 'image/vnd.microsoft.icon'])
+                    ->maxSize(500),
+                TextInput::make('footer_text')
+                    ->default(null)
+                    ->label('Teks Footer'),
+                TextInput::make('latitude')
+                    ->numeric()
+                    ->step('any')
+                    ->default(null)
+                    ->label('Latitude'),
+                TextInput::make('longitude')
+                    ->numeric()
+                    ->step('any')
+                    ->default(null)
+                    ->label('Longitude'),
             ]);
     }
 }

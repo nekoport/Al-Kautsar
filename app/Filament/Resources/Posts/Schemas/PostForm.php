@@ -34,7 +34,9 @@ class PostForm
                     ->disk('public')
                     ->directory('posts')
                     ->default(null)
-                    ->label('Thumbnail'),
+                    ->label('Thumbnail')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
                 Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required()

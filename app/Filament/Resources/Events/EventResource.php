@@ -19,11 +19,11 @@ class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
 
-    protected static ?string $navigationLabel = 'Acara';
+    protected static ?string $navigationLabel = 'Kegiatan Mendatang';
 
-    protected static ?string $modelLabel = 'Acara';
+    protected static ?string $modelLabel = 'Kegiatan Mendatang';
 
-    protected static ?string $pluralModelLabel = 'Acara';
+    protected static ?string $pluralModelLabel = 'Kegiatan Mendatang';
 
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;

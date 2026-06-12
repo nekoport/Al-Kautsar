@@ -48,17 +48,22 @@
                 </div>
                 @endif
             </div>
+            @php($lat = $mosque->latitude ?? '-6.3319')
+            @php($lng = $mosque->longitude ?? '106.8178')
             <div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100" style="min-height: 400px;">
                 <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3965.4992149618224!2d106.8178!3d-6.3319!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwMTknNTQuOCJTIDEwNsKwNDknMDQuMSJF!5e0!3m2!1sen!2sid!4v1"
+                    src="https://www.google.com/maps?q={{ $lat }},{{ $lng }}&output=embed"
                     width="100%"
                     height="100%"
                     style="border:0; min-height: 400px;"
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
-                    title="Google Maps - Green Jagakarsa">
+                    title="Google Maps - {{ $mosque->address ?? 'Masjid Al-Kautsar' }}">
                 </iframe>
+                <div class="p-3 text-center border-t border-gray-100">
+                    <a href="https://www.google.com/maps?q={{ $lat }},{{ $lng }}" target="_blank" rel="noopener" class="text-primary text-sm font-medium hover:underline">Buka di Google Maps</a>
+                </div>
             </div>
         </div>
     </div>

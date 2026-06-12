@@ -81,6 +81,7 @@ class AdminPanelProvider extends PanelProvider
                 </style>'),
             )
             ->brandName('Masjid Al-Kautsar')
+            ->profile()
             ->databaseNotifications()
             ->databaseNotificationsPolling('30s')
             ->navigationGroups([

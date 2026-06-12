@@ -40,7 +40,9 @@ class DonationInfoForm
                     ->disk('public')
                     ->directory('qris')
                     ->label('Gambar QRIS')
-                    ->visible(fn ($get) => $get('type') === 'qris'),
+                    ->visible(fn ($get) => $get('type') === 'qris')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
                 Textarea::make('notes')
                     ->default(null)
                     ->columnSpanFull()

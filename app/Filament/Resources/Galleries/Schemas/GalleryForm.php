@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\Galleries\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -24,7 +25,28 @@ class GalleryForm
                     ->image()
                     ->disk('public')
                     ->directory('galleries')
-                    ->label('Gambar Sampul'),
+                    ->label('Gambar Sampul')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
+                Repeater::make('items')
+                    ->relationship()
+                    ->schema([
+                        FileUpload::make('image_path')
+                            ->image()
+                            ->disk('public')
+                            ->directory('gallery-items')
+                            ->required()
+                            ->label('Gambar')
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->maxSize(2048),
+                        TextInput::make('caption')
+                            ->default(null)
+                            ->label('Keterangan'),
+                    ])
+                    ->orderColumn('order')
+                    ->defaultItems(0)
+                    ->label('Foto-foto')
+                    ->columnSpanFull(),
             ]);
     }
 }

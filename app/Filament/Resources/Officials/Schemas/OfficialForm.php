@@ -25,7 +25,9 @@ class OfficialForm
                     ->disk('public')
                     ->directory('officials')
                     ->default(null)
-                    ->label('Foto'),
+                    ->label('Foto')
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->maxSize(2048),
                 RichEditor::make('bio')
                     ->default(null)
                     ->columnSpanFull()

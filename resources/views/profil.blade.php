@@ -15,18 +15,18 @@
         <div class="bg-white rounded-2xl p-8 md:p-12 shadow-sm border border-gray-100">
             <h2 class="text-2xl font-bold text-gray-900 mb-6">Sejarah</h2>
             <div class="prose prose-gray max-w-none leading-relaxed">
-                {{ $mosque->history ?? 'Belum ada data sejarah.' }}
+                {!! $mosque->history ?? 'Belum ada data sejarah.' !!}
             </div>
         </div>
         @if($mosque->vision || $mosque->mission)
         <div class="grid md:grid-cols-2 gap-8 mt-8">
             <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                 <h2 class="text-xl font-bold text-gray-900 mb-4">Visi</h2>
-                <p class="text-gray-600 leading-relaxed">{{ $mosque->vision }}</p>
+                <div class="text-gray-600 leading-relaxed">{!! $mosque->vision !!}</div>
             </div>
             <div class="bg-white rounded-2xl p-8 shadow-sm border border-gray-100">
                 <h2 class="text-xl font-bold text-gray-900 mb-4">Misi</h2>
-                <p class="text-gray-600 leading-relaxed">{{ $mosque->mission }}</p>
+                <div class="text-gray-600 leading-relaxed">{!! $mosque->mission !!}</div>
             </div>
         </div>
         @endif
